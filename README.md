@@ -81,13 +81,14 @@ let fanLayerNum;
 function draw(){
   //...other code
 
-  for (let y = 0; y <= height + 100; y += yGap) {
+for (let y = 0; y <= height + 100; y += yGap) {
   for (let x = 0; x <= width + 100; x += xGap) {
     fanColor = color(119, 145, 184);
     fanLayerNum = 5;
     drawPattern(x, y, fanColor, fanLayerNum);
   }
 }
+
   //...other code
 }
 
@@ -162,12 +163,13 @@ Thus, we add this if statement inside the for loop.
 
 ```javascript
 // line2, 4, 6...
-if (y % (2 * yGap) == 0) { 
-          offset = xGap / 2;
-        } else {
-          // line 1, 3, 5...
-          offset = 0;
-        }
+if (y % (2 * yGap) == 0) {
+  offset = xGap / 2;
+} else {
+  // line 1, 3, 5...
+  offset = 0;
+}
+
 ```
 
 And change "x" to "x+offset" when calling drawPattern function.
@@ -181,7 +183,7 @@ So the code now is:
 ```javascript
 for (let y = 0; y <= height + 100; y += yGap) {
   for (let x = 0; x <= width + 100; x += xGap) {
-    
+
     if (y % (2 * yGap) == 0) {
       offset = xGap / 2;
     } else {
@@ -192,6 +194,7 @@ for (let y = 0; y <= height + 100; y += yGap) {
     drawPattern(x + offset, y, fanColor, fanLayerNum);
   }
 }
+
 
 ```
 
@@ -215,21 +218,25 @@ We apply a similar calculation method as shown above.
 
 ```javascript
 // lines with white and blue patterns
-if (y % (4 * yGap) == 60) { 
+if (y % (4 * yGap) == 60) {
+
   //white,blue,white,blue...
-          if (x % (2 * xGap) == 0) {
-            fanColor = color(255);
-          } else {
-            fanColor = color(119, 145, 184);
-          }
-        } else { 
-          //blue,white,blue,white
-          if (x % (2 * xGap) == 85) {
-            fanColor = color(255);
-          } else {
-            fanColor = color(119, 145, 184);
-          }
-        }
+  if (x % (2 * xGap) == 0) {
+    fanColor = color(255);
+  } else {
+    fanColor = color(119, 145, 184);
+  }
+
+} else {
+
+  //blue,white,blue,white
+  if (x % (2 * xGap) == 85) {
+    fanColor = color(255);
+  } else {
+    fanColor = color(119, 145, 184);
+  }
+}
+
 ```
 
 ![blue offseted fans](Assets/5.png)
@@ -239,27 +246,36 @@ We know that all the white fans only has one layer, and all the blue fans have f
 ```javascript
 for (let y = 0; y <= height + 100; y += yGap) {
     for (let x = 0; x <= width + 100; x += xGap) {
+
       if (y % (2 * yGap) == 0) {
         offset = xGap / 2;
         fanColor = color(119, 145, 184);
         fanLayerNum = 5; //<--We add this Layer Number parameter when calling drawPattern function
+
       } else {
+
         if (y % (4 * yGap) == 60) {
+
           if (x % (2 * xGap) == 0) {
             fanColor = color(255);
             fanLayerNum = 1;
+
           } else {
             fanColor = color(119, 145, 184);
             fanLayerNum = 5;
           }
+
         } else {
+
           if (x % (2 * xGap) == 85) {
             fanColor = color(255);
             fanLayerNum = 1;
+
           } else {
             fanColor = color(119, 145, 184);
             fanLayerNum = 5;
           }
+          
         }
         offset = 0;
       }
