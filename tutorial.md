@@ -42,23 +42,11 @@ function setup() {
 
 This whole part of code for drawing the shape mess up the code in draw loop. Thus, we recommend you to define a function especially for drawing this shape. 
 
-<br>
 
----
-### Defining New Function
-
-When you define a new function, it's basically a process of "parameterizing" the feature/aspects/details in the new function.Below is the basic procedure of parameterizing:
-
-1. Identify which value is responsible for the feature.
-2. Replace value with a descriptive variable name.
-3. List variable name inside the function definition "()".
-4. Put actual value into "()" when calling the function.
-
----
 <br>
 <br>
 
-In this specific fan example, we want to have different features: x&y positions, different colors of the fan (white & blue), and blue fan with 5 layers, white fan with 1 layer. Then we make these x, y, fanColor, and fanLayerNum as variables. So that we only need to put actual values when calling this function in draw loop.
+In this specific fan example, we want to have different features: x&y positions, different colors of the fan (white & blue), and blue fan with 5 layers, white fan with 1 layer. Then we make these x, y, fanColor, and fanLayerNum as parameters. So that we only need to put actual values when calling this function in draw loop.
 
 ```javascript
 
@@ -90,13 +78,19 @@ let fanColor;
 let fanLayerNum;
 
 // add this forloop, you can adjust the gap distance to figure out the best distance between lines and columns
-for (let y = 0; y <= height + 100; y += yGap) {
+function draw(){
+  //...other code
+
+  for (let y = 0; y <= height + 100; y += yGap) {
   for (let x = 0; x <= width + 100; x += xGap) {
     fanColor = color(119, 145, 184);
     fanLayerNum = 5;
     drawPattern(x, y, fanColor, fanLayerNum);
   }
 }
+  //...other code
+}
+
 ```
 
 
@@ -117,12 +111,23 @@ Module is a good tool for categorizing items into groups based on their remainde
 For example:
 
 ```javascript
-let a = 10 % 3; // a == 1
-let b = 8 % 6 // b == 2
-let c = 15 % 4 // c == 3
+let a = 10 % 3; // a == 1    because 10 is 3 + 3 + 3 + 1
+let b = 8 % 6 // b == 2      because 8 is 6 + 2
+let c = 15 % 4 // c == 3     because 15 is 4 + 4 + 4 + 3
 ```
 
-It is often used as a timer, combining with frameCount() to trigger some certain action in p5js.
+It is often used as a trigger, combining with frameCount() to trigger some certain actions in p5js.
+
+```javascript
+0 % 5 == 0  // true     <----
+1 % 5 == 0  // false
+2 % 5 == 0  // false
+3 % 5 == 0  // false
+4 % 5 == 0  // false 
+5 % 5 == 0  // true     <---- every 5 steps this is true! We can trigger with if statement with this  
+6 % 5 == 0  // false
+```
+
 
 For instance:
 
@@ -135,15 +140,15 @@ function setup() {
 
 function draw() {
   background(0);
-  //The default frame count every second is 60. And frameCount returns a value that plus 1 every frame. 
+  //The default frame count is 60. And frameCount returns a value that plus 1 every frame. 
   if (frameCount % 60 >=0 && frameCount % 60 <=5) { 
     // When the current accumulated frameCount can be divided by 60 and the remainder is between 0 and 5;
-    circle(width/2, height/2, 100); // draw a circle for one frame every 1 second;
+    circle(width/2, height/2, 100); // draw a circle for one frame every 60 frames;
   }
 }
 
 ```
-In this example, the circle appears every 1 second, and stays for 5/60 seconds.
+In this example, the circle appears for every 60 frames, and stays for 5 frames.
 
 ---
 
@@ -174,21 +179,20 @@ And change "x" to "x+offset" when calling drawPattern function.
 So the code now is:
 
 ```javascript
- for (let y = 0; y <= height + 100; y += yGap) {
-    for (let x = 0; x <= width + 100; x += xGap) {
-      for (let x = 0; x <= width + 100; x += xGap) {
-
-        if (y % (2 * yGap) == 0) {
-          offset = xGap / 2;
-        } else {
-          offset = 0;
-        }
-
-        fanColor = color(119, 145, 184);
-        drawPattern(x + offset, y, fanColor,fanLayerNum);
-      }
+for (let y = 0; y <= height + 100; y += yGap) {
+  for (let x = 0; x <= width + 100; x += xGap) {
+    
+    if (y % (2 * yGap) == 0) {
+      offset = xGap / 2;
+    } else {
+      offset = 0;
     }
+
+    fanColor = color(119, 145, 184);
+    drawPattern(x + offset, y, fanColor, fanLayerNum);
   }
+}
+
 ```
 
 ![blue offseted fans](Assets/4.png)
@@ -230,7 +234,7 @@ if (y % (4 * yGap) == 60) {
 
 ![blue offseted fans](Assets/5.png)
 
-We know that all the white fans only has one layer, and all the blue fans have five layers. Thus, we can now also add value to the fanLayerNum variable when we call drawPattern function.
+We know that all the white fans only has one layer, and all the blue fans have five layers. Thus, we can now also add value to the fanLayerNum parameter when we call drawPattern function.
 
 ```javascript
 for (let y = 0; y <= height + 100; y += yGap) {
@@ -238,7 +242,7 @@ for (let y = 0; y <= height + 100; y += yGap) {
       if (y % (2 * yGap) == 0) {
         offset = xGap / 2;
         fanColor = color(119, 145, 184);
-        fanLayerNum = 5; //<--We add this Layer Number variable when calling drawPattern function
+        fanLayerNum = 5; //<--We add this Layer Number parameter when calling drawPattern function
       } else {
         if (y % (4 * yGap) == 60) {
           if (x % (2 * xGap) == 0) {
