@@ -144,7 +144,7 @@ function draw() {
   //The default frame count is 60. And frameCount returns a value that plus 1 every frame. 
   if (frameCount % 60 >=0 && frameCount % 60 <=5) { 
     // When the current accumulated frameCount can be divided by 60 and the remainder is between 0 and 5;
-    circle(width/2, height/2, 100); // draw a circle for one frame every 60 frames;
+    circle(width/2, height/2, 100); // draw a circle for 5 frame every 60 frames;
   }
 }
 
